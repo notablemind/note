@@ -1,0 +1,20 @@
+{
+  "name": "note",
+  "repo": "notablemind/note",
+  "description": "The basic note item",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "notablemind/dropicon": "*",
+    "notablemind/dropicon-simple": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "note.css"
+  ]
+}
