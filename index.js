@@ -64,6 +64,12 @@ var Note = module.exports = React.createClass({
   selectInput: function () {
     this.refs.input.focus()
   },
+  selectTags: function () {
+    this.refs.tags.focus()
+  },
+  selectDrop: function () {
+    this.refs.drop.focus()
+  },
   render: function () {
     var type = getType(this.props.types, this.state.data.type)
     return d.div({
@@ -74,18 +80,24 @@ var Note = module.exports = React.createClass({
         value: type,
         onChange: this.changeType,
         options: this.props.types,
-        view: IconDrop
+        onNext: this.selectInput,
+        view: IconDrop,
+        ref: 'drop',
       }),
       type.view(this.state.data, this.changeData, {
         setSelection: this.state.selection,
         setFocus: this.state.setFocus || this.props.setFocus,
         onFocus: this.props.onFocus,
+        onNext: this.selectTags,
+        onPrev: this.selectDrop,
         actions: this.props.actions,
         keymap: this.props.keymap,
+        className: 'body',
         ref: 'input'
       }),
       Tags({
-        onPrev: this.selectInput
+        onPrev: this.selectInput,
+        ref: 'tags'
       })
     ])
   }
