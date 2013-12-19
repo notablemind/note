@@ -5,7 +5,13 @@ var d = React.DOM
 
   , _ = require('lodash')
   , DropIcon = require('dropicon')
-  , Tabs = require('tabs')
+  , Tags = require('tags')
+
+function getType(types, name) {
+  for (var i=0; i<types.length; i++) {
+    if (types[i].name === name) return types[i]
+  }
+}
 
 var Note = module.exports = React.createClass({
   onData: function (data) {
@@ -14,12 +20,17 @@ var Note = module.exports = React.createClass({
 
   getDefaultProps: function () {
     return {
-      types: types
+      types: types,
+      className: ''
     }
   },
   getInitialState: function () {
     return {
-      selection: false
+      selection: false,
+      data: {
+        type: 'normal',
+        text: ''
+      }
     }
   },
   componentWillMount: function () {
@@ -39,7 +50,7 @@ var Note = module.exports = React.createClass({
     }, this.state.text.length)
   },
   changeType: function (type) {
-    this.setState({type: type.name})
+    this.changeData({type: type.name})
   },
   changeData: function (data, selection) {
     data = _.extend({}, this.state.data, data)
@@ -47,18 +58,19 @@ var Note = module.exports = React.createClass({
       data: data,
       selection: selection || false
     })
+    if (!this.props.set) return
     this.props.set({data: data})
   },
   selectInput: function () {
     this.refs.input.focus()
   },
   render: function () {
-    var type = this.props.types[this.state.data.type]
+    var type = getType(this.props.types, this.state.data.type)
     return d.div({
-      className: 'note',
+      className: 'note ' + this.props.className,
     }, [
       DropIcon({
-        className: 'simple-icon icon-drop',
+        showSelected: true,
         value: type,
         onChange: this.changeType,
         options: this.props.types,
@@ -72,7 +84,7 @@ var Note = module.exports = React.createClass({
         keymap: this.props.keymap,
         ref: 'input'
       }),
-      Tabs({
+      Tags({
         onPrev: this.selectInput
       })
     ])

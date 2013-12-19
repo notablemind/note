@@ -3,9 +3,11 @@ var d = React.DOM
 
 var IconDrop = module.exports = React.createClass({
   render: function () {
-    return d.div({className: 'icon-head'}, [
+    return d.div({
+      onClick: this.props.onSelect
+    }, [
       d.i({
-        className: 'fa fa-' + this.props.value.icon,
+        className: 'fa fa-fw fa-' + this.props.value.icon,
       }),
       !this.props.head && this.props.value.name
     ])

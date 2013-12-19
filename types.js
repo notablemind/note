@@ -1,7 +1,7 @@
 
 var Input = require('input-tree')
-  , Twinputs = require('twinputs')
-  , ScriptureInput = require('scripture')
+  // , Twinputs = require('twinputs')
+  // , ScriptureInput = require('scripture')
 
 function InputHead(data, change, props, children) {
   props.value = data.text
@@ -63,6 +63,7 @@ module.exports = [
     name: 'todo',
     view: InputHead,
     icon: 'exclamation',
+    /*
   }, {
     name: 'question',
     view: Question,
@@ -75,6 +76,7 @@ module.exports = [
     name: 'scripture',
     view: Scripture,
     icon: 'book',
+    */
   }
 ]
 

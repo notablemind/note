@@ -1,6 +1,13 @@
 
-var Dropicon = require('dropicon')
+// var Dropicon = require('dropicon')
+var Note = require('note')
 
+React.renderComponent(Note({}), document.getElementById('simple'))
+React.renderComponent(Note({className: 'note-simple-theme'}), document.getElementById('themed'))
+
+/* colorful */
+
+/*
 var Demo = React.createClass({
   getInitialState: function () {
     return {
@@ -28,7 +35,6 @@ React.renderComponent(Demo({
   options: ['one', 'two', 'three']
 }), document.getElementById('simple'))
 
-/* colorful */
 
 var Colorful = React.createClass({
   render: function () {
@@ -112,3 +118,4 @@ var CollapsePre = React.createClass({
   }), div)
 })
 
+/* colorful */

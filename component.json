@@ -6,15 +6,23 @@
   "keywords": [],
   "dependencies": {
     "notablemind/dropicon": "*",
-    "notablemind/dropicon-simple": "*"
+    "notablemind/input-tree": "*",
+    "notablemind/tags": "*",
+    "lodash/lodash": "*"
   },
-  "development": {},
+  "development": {
+    "notablemind/dropicon-simple": "*",
+    "notablemind/note-theme-simple": "*"
+  },
   "license": "MIT",
   "main": "index.js",
   "scripts": [
-    "index.js"
+    "index.js",
+    "icon-drop.js",
+    "types.js"
   ],
   "styles": [
     "note.css"
-  ]
+  ],
+  "remotes": []
 }
