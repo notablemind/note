@@ -42,23 +42,35 @@ module.exports = [
   {
     name: 'normal',
     view: InputHead,
-    icon: 'bullet'
+    icon: 'circle-o'
   }, {
     name: 'title',
     view: InputHead,
-    icon: 'big-bullet'
+    icon: 'dot-circle-o'
   }, {
     name: 'idea',
     view: InputHead,
-    icon: 'idea'
+    icon: 'lightbulb-o'
+  }, {
+    name: 'think-about',
+    view: InputHead,
+    icon: 'cogs'
+  }, {
+    name: 'email',
+    view: InputHead,
+    icon: 'envelope-o',
+  }, {
+    name: 'todo',
+    view: InputHead,
+    icon: 'exclamation',
   }, {
     name: 'question',
     view: Question,
-    icon: 'question-mark',
+    icon: 'question',
   }, {
     name: 'quote',
     view: Quote,
-    icon: 'quotation-mark',
+    icon: 'quote-left',
   }, {
     name: 'scripture',
     view: Scripture,
