@@ -45,11 +45,11 @@ var Note = module.exports = React.createClass({
   },
 
   addText: function (text) {
-    var full = this.state.text + text
-      , pos = this.state.text.length
+    var full = this.state.data.text + text
+      , pos = this.state.data.text.length
     this.changeData({
       text: full
-    }, this.state.text.length)
+    }, pos)
   },
   changeType: function (type) {
     this.changeData({type: type.name})
