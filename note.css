@@ -4,3 +4,39 @@
   width: auto;
 }
 
+.note .tags {
+  font-size: 11px;
+}
+.note .tags .tag {
+  border-radius: 5px;
+}
+.note .tags .tag .text {
+  padding: 3px 0 3px 5px;
+}
+.note .tags .tag .remove-tag {
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.note .tags input {
+  font-size: 11px;
+  padding: 3px 5px;
+}
+
+.tree {
+  padding: 0;
+  margin: 0;
+}
+
+.tree .note .tags {
+  padding-top: 3px;
+}
+.tree li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tree .tree-children {
+  margin: 0;
+  padding-left: 30px;
+}
+

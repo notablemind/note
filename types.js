@@ -2,6 +2,7 @@
 var Input = require('input-tree')
   // , Twinputs = require('twinputs')
   // , ScriptureInput = require('scripture')
+  // , ImageDrop = require('image-drop')
 
 function InputHead(data, change, props, children) {
   props.value = data.text
@@ -36,6 +37,15 @@ function Scripture(data, change, props, children) {
     change({reference: reference, text: text})
   }
   return ScriptureInput(props, children)
+}
+
+function Image(data, change, props, children) {
+  props.text = data.text
+  props.imgdata = data.imgdata
+  props.onChange = function (text, imgdata) {
+    change({text: text, imgdata: imgdata})
+  }
+  return ImageDrop(props, children)
 }
 
 module.exports = [
@@ -76,6 +86,10 @@ module.exports = [
     name: 'scripture',
     view: Scripture,
     icon: 'book',
+  }, {
+    name: 'image',
+    view: Image,
+    icon: 'camera'
     */
   }
 ]

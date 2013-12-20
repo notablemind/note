@@ -1,121 +1,63 @@
 
-// var Dropicon = require('dropicon')
 var Note = require('note')
+  , Manager = require('note-manager')
+  , Tree = require('tree')
 
 React.renderComponent(Note({}), document.getElementById('simple'))
-React.renderComponent(Note({className: 'note-simple-theme'}), document.getElementById('themed'))
+React.renderComponent(Note({themeClass: 'simple-theme'}), document.getElementById('themed'))
 
-/* colorful */
+function rid() {
+  var chars = 'abcdef0123456789'
+    , id = ''
+  for (var i=0; i<5; i++) {
+    id += chars[parseInt(Math.random()*chars.length)]
+  }
+  return id
+}
 
-/*
-var Demo = React.createClass({
-  getInitialState: function () {
-    return {
-      value: this.props.initialValue
+function rTree(idx, depth, fixed) {
+  if (depth <= 0) return
+  var n = fixed || parseInt(Math.random() * 3) + 2
+    , children = []
+  for (var i=0; i<n; i++) {
+    children.push({
+      id: rid(), // idx + ':' + i,
+      data: {
+        type: 'normal',
+        text: 'Name of ' + idx + ':' + i,
+        tags: []
+      },
+      children: rTree(idx + ':' + i, depth-1, fixed)
+    })
+  }
+  return children
+}
+
+React.renderComponent(Tree({
+  manager: new Manager({
+    id: 0,
+    data: {
+      text: 'TestHead',
+      tags: [],
+      type: 'title'
+    },
+    children: rTree(0, 3)
+  }), // big test is rTree(0, 3, 6)
+  head: Note,
+  headProps: {
+    themeClass: 'simple-theme',
+    keymap: {
+      moveLeft: 'alt left',
+      moveRight: 'alt right',
+      moveDown: 'alt down',
+      moveUp: 'alt up',
+
+      newNode: 'return',
+      newAfter: 'shift return',
+      goDown: 'down',
+      goUp: 'up',
     }
   },
-  onChange: function (value) {
-    this.setState({value: value})
-  },
-  render: function () {
-    return React.DOM.div({}, [
-      'Current Value: ' + JSON.stringify(this.state.value),
-      React.DOM.br(),
-      this.transferPropsTo(Dropicon({
-        value: this.state.value,
-        onChange: this.onChange
-      }))
-    ])
-  },
-})
+  id: 0,
+}), document.getElementById('tree'))
 
-React.renderComponent(Demo({
-  initialValue: 'one',
-  className: 'simple-theme',
-  options: ['one', 'two', 'three']
-}), document.getElementById('simple'))
-
-
-var Colorful = React.createClass({
-  render: function () {
-    return React.DOM.div({
-      className: 'color-item',
-      onClick: this.props.onSelect
-    }, [
-      React.DOM.span({
-        className: 'color',
-        style: {
-          backgroundColor: this.props.value.color
-        }
-      }),
-      this.props.value.title
-    ])
-  }
-})
-
-var options = [
-  {color: 'red', title: 'Warning'},
-  {color: 'green', title: 'Awesome'},
-  {color: 'magenta', title: 'Problems'}
-]
-React.renderComponent(Demo({
-  initialValue: options[0],
-  className: 'simple-theme',
-  showSelected: true,
-  view: Colorful,
-  options: options,
-}), document.getElementById('colorful'))
-
-
-
-
-
-
-
-
-var CollapsePre = React.createClass({
-  getInitialState: function () {
-    return {showing: this.props.showInitial}
-  },
-  componentDidMount: function () {
-    Prism.highlightElement(this.refs.code.getDOMNode())
-  },
-  toggle: function () {
-    this.setState({showing: !this.state.showing})
-  },
-  render: function () {
-    return React.DOM.div({className: 'collapse-pre'}, [
-      React.DOM.div({
-        className: 'pre-title',
-        onClick: this.toggle
-      }, [
-        this.state.showing ? 'Hide ' : 'Show ',
-        this.props.title
-      ]),
-      React.DOM.pre({
-        style: {
-          display: this.state.showing ? 'block' : 'none'
-        }
-      }, React.DOM.code({
-        ref: 'code',
-        className: this.props.langClass,
-        dangerouslySetInnerHTML: {
-          __html: this.props.source
-        }
-      }))
-    ])
-  },
-})
-
-;[].slice.call(document.querySelectorAll('pre.collapse')).forEach(function (pre) {
-  var div = document.createElement('div')
-  pre.parentNode.replaceChild(div, pre)
-  React.renderComponent(CollapsePre({
-    source: pre.firstChild.innerHTML,
-    langClass: pre.firstChild.className,
-    showInitial: pre.className.indexOf('showing') !== -1,
-    title: pre.title
-  }), div)
-})
-
-/* colorful */

@@ -11,8 +11,9 @@
     "lodash/lodash": "*"
   },
   "development": {
-    "notablemind/dropicon-simple": "*",
-    "notablemind/note-theme-simple": "*"
+    "notablemind/note-theme-simple": "*",
+    "notablemind/note-manager": "*",
+    "notablemind/tree": "*"
   },
   "license": "MIT",
   "main": "index.js",

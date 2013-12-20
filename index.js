@@ -21,7 +21,8 @@ var Note = module.exports = React.createClass({
   getDefaultProps: function () {
     return {
       types: types,
-      className: ''
+      className: '',
+      themeClass: ''
     }
   },
   getInitialState: function () {
@@ -29,17 +30,18 @@ var Note = module.exports = React.createClass({
       selection: false,
       data: {
         type: 'normal',
+        tags: [],
         text: ''
       }
     }
   },
   componentWillMount: function () {
     if (!this.props.on) return
-    this.props.on(this.onData)
+    this.props.on('data', this.onData)
   },
   componentWillUnmount: function () {
     if (!this.props.off) return
-    this.props.off(this.onData)
+    this.props.off('data', this.onData)
   },
 
   addText: function (text) {
@@ -59,7 +61,10 @@ var Note = module.exports = React.createClass({
       selection: selection || false
     })
     if (!this.props.set) return
-    this.props.set({data: data})
+    this.props.set('data', data)
+  },
+  changeTags: function (tags) {
+    this.changeData({tags: tags})
   },
   selectInput: function () {
     this.refs.input.focus()
@@ -70,12 +75,28 @@ var Note = module.exports = React.createClass({
   selectDrop: function () {
     this.refs.drop.focus()
   },
+  boundActions: function () {
+    if (!this.props.actions) return {}
+    var createAfter = this.props.actions.createAfter
+      , actions = _.extend({}, this.props.actions)
+    actions.createAfter = function (data, after) {
+      data.type = this.state.data.type
+      data.tags = []
+      createAfter(data, after)
+    }.bind(this)
+    return actions
+  },
   render: function () {
-    var type = getType(this.props.types, this.state.data.type)
+    var type = getType(this.props.types, this.state.data.type || 'normal')
+    if (!type) {
+      console.error('Invalid type', this.state.data.type, this.state.data)
+      return d.div()
+    }
     return d.div({
-      className: 'note ' + this.props.className,
+      className: 'note ' + this.props.className + ' ' + this.props.themeClass,
     }, [
       DropIcon({
+        className: this.props.themeClass,
         showSelected: true,
         value: type,
         onChange: this.changeType,
@@ -90,13 +111,16 @@ var Note = module.exports = React.createClass({
         onFocus: this.props.onFocus,
         onNext: this.selectTags,
         onPrev: this.selectDrop,
-        actions: this.props.actions,
+        actions: this.boundActions(),
         keymap: this.props.keymap,
         className: 'body',
         ref: 'input'
       }),
       Tags({
+        className: this.props.themeClass,
+        onChange: this.changeTags,
         onPrev: this.selectInput,
+        value: this.state.data.tags || [],
         ref: 'tags'
       })
     ])
