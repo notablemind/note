@@ -25,7 +25,8 @@ function rTree(idx, depth, fixed) {
       data: {
         type: 'normal',
         text: 'Name of ' + idx + ':' + i,
-        tags: []
+        open: true,
+        tags: ['one']
       },
       children: rTree(idx + ':' + i, depth-1, fixed)
     })
