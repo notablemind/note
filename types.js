@@ -1,7 +1,8 @@
 
 var Input = require('input-tree')
+  , ScriptureInput = require('scripture-input')
+  , request = require('superagent')
   // , Twinputs = require('twinputs')
-  // , ScriptureInput = require('scripture')
   // , ImageDrop = require('image-drop')
 
 function InputHead(data, change, props, children) {
@@ -33,8 +34,19 @@ function Quote(data, change, props, children) {
 function Scripture(data, change, props, children) {
   props.reference = data.reference
   props.text = data.text
-  props.onChange = function (reference, text) {
-    change({reference: reference, text: text})
+  props.onRefChange = function (reference) {
+    change({reference: reference})
+    request.get('http://localhost:8080/lookup?ref=' + encodeURIComponent(reference))
+      .end(function (err, res) {
+        if (err) return console.warn('Error', err)
+        if (res.status !== 200) {
+          return console.warn('Failed lookup', res.text)
+        }
+        change({text: res.text})
+      })
+  }
+  props.onTextChange = function (text) {
+    change({text: text})
   }
   return ScriptureInput(props, children)
 }
@@ -73,6 +85,10 @@ module.exports = [
     name: 'todo',
     view: InputHead,
     icon: 'exclamation',
+  }, {
+    name: 'scripture',
+    view: Scripture,
+    icon: 'book',
     /*
   }, {
     name: 'question',
@@ -82,10 +98,6 @@ module.exports = [
     name: 'quote',
     view: Quote,
     icon: 'quote-left',
-  }, {
-    name: 'scripture',
-    view: Scripture,
-    icon: 'book',
   }, {
     name: 'image',
     view: Image,

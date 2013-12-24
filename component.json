@@ -7,13 +7,16 @@
   "dependencies": {
     "notablemind/dropicon": "*",
     "notablemind/input-tree": "*",
+    "notablemind/scripture-input": "*",
     "notablemind/tags": "*",
+    "visionmedia/superagent": "*",
     "lodash/lodash": "*"
   },
   "development": {
     "notablemind/note-theme-simple": "*",
     "notablemind/note-manager": "*",
-    "notablemind/tree": "*"
+    "notablemind/tree": "*",
+    "ask11/indexed": "*"
   },
   "license": "MIT",
   "main": "index.js",

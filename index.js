@@ -15,7 +15,7 @@ function getType(types, name) {
 
 var Note = module.exports = React.createClass({
   onData: function (data) {
-    this.setState({data: data})
+    this.setState({data: data || {}})
   },
 
   getDefaultProps: function () {
@@ -63,8 +63,13 @@ var Note = module.exports = React.createClass({
     if (!this.props.set) return
     this.props.set('data', data)
   },
+  bounceChange: function (data, selection) {
+  },
   changeTags: function (tags) {
     this.changeData({tags: tags})
+  },
+  focus: function (start) {
+    this.refs.input.focus(start)
   },
   selectInput: function () {
     this.refs.input.focus()
