@@ -85,6 +85,7 @@ var Note = module.exports = React.createClass({
     var createAfter = this.props.actions.createAfter
       , actions = _.extend({}, this.props.actions)
     actions.createAfter = function (data, after) {
+      data = data || {text: ''}
       data.type = this.state.data.type
       data.tags = []
       createAfter(data, after)
@@ -93,6 +94,7 @@ var Note = module.exports = React.createClass({
   },
   render: function () {
     var type = getType(this.props.types, this.state.data.type || 'normal')
+      , actions = this.boundActions()
     if (!type) {
       console.error('Invalid type', this.state.data.type, this.state.data)
       return d.div()
@@ -116,7 +118,7 @@ var Note = module.exports = React.createClass({
         onFocus: this.props.onFocus,
         onNext: this.selectTags,
         onPrev: this.selectDrop,
-        actions: this.boundActions(),
+        actions: actions,
         keymap: this.props.keymap,
         className: 'body',
         ref: 'input'
@@ -125,6 +127,8 @@ var Note = module.exports = React.createClass({
         className: this.props.themeClass,
         onChange: this.changeTags,
         onPrev: this.selectInput,
+        onNext: actions.goDown.bind(null, true, true),
+        onReturn: actions.createAfter,
         value: this.state.data.tags || [],
         ref: 'tags'
       })
