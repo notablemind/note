@@ -53,6 +53,9 @@ var Note = module.exports = React.createClass({
   },
   changeType: function (type) {
     this.changeData({type: type.name})
+    setTimeout(function() {
+      this.selectInput(true)
+    }.bind(this), 50)
   },
   changeData: function (data, selection) {
     data = _.extend({}, this.state.data, data)
@@ -63,16 +66,14 @@ var Note = module.exports = React.createClass({
     if (!this.props.set) return
     this.props.set('data', data)
   },
-  bounceChange: function (data, selection) {
-  },
   changeTags: function (tags) {
     this.changeData({tags: tags})
   },
   focus: function (start) {
     this.refs.input.focus(start)
   },
-  selectInput: function () {
-    this.refs.input.focus()
+  selectInput: function (start) {
+    this.refs.input.focus(start === true)
   },
   selectTags: function () {
     this.refs.tags.focus()
@@ -107,8 +108,9 @@ var Note = module.exports = React.createClass({
         showSelected: true,
         value: type,
         onChange: this.changeType,
+      	mainText: function (v) { return v.name },
         options: this.props.types,
-        onNext: this.selectInput,
+        onNext: this.selectInput.bind(null, true),
         view: IconDrop,
         ref: 'drop',
       }),
@@ -127,7 +129,7 @@ var Note = module.exports = React.createClass({
         className: this.props.themeClass,
         onChange: this.changeTags,
         onPrev: this.selectInput,
-        onNext: actions.goDown.bind(null, true, true),
+        onNext: actions.goDown && actions.goDown.bind(null, true, true),
         onReturn: actions.createAfter,
         value: this.state.data.tags || [],
         ref: 'tags'

@@ -42,7 +42,7 @@ React.renderComponent(Tree({
       tags: [],
       type: 'title'
     },
-    children: rTree(0, 3)
+    children: rTree(0, 1, 10)
   }), // big test is rTree(0, 3, 6)
   head: Note,
   headProps: {
